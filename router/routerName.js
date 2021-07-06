@@ -79,6 +79,7 @@ export function routerFun (routerS) {
       case 2:
         // 当路由不是嵌套路径时 直接push到routerList中
         parentAttribute(routerArr[1], routerArr[1])
+        // router.name = routerArr[1] + 'p'
         router.children.push(routerChildren)
         routerChildren.path = routerObj.path + ((routerName[routerArr[1]] && routerName[routerArr[1]] !== '' && routerName[routerArr[1]].isID) ? routerName[routerArr[1]].isID : '')
         routerList.push(router)
@@ -119,7 +120,7 @@ export const routerName = {
   },
   system: {
     name: '系统管理',
-    icon: 'form',
+    icon: 'component',
     index: 2,
     permission: [1, 2, 3],
     // isID: '/:id',
@@ -129,13 +130,13 @@ export const routerName = {
         name: '用户管理',
         icon: 'form',
         index: 1,
-        permission: [1, 2, 3],
+        permission: [],
         // isID: '/:id',
         newTime: '2021-07-20'
       },
       menu: {
         name: '菜单管理',
-        icon: 'form',
+        icon: 'el-icon-caret-bottom',
         index: 2,
         permission: [1, 2, 3],
         // isID: '/:id',
@@ -146,7 +147,16 @@ export const routerName = {
 }
 
 // 如果是三级菜单，自行配置
-export const constantRoutes = [{
+export const constantRoutes = [
+  // {
+  //   name: 'error',
+  //   meta: { title: '错误', permissionArray: [1, 2, 3], icon: 'error', newTime: new Date(), noCache: false },
+  //   icon: 'form',
+  //   path: '/error',
+  //   children: [],
+  //   hidden: true
+  // }
+  // {
   // icon: 'form',
   // url: 'system',
   // newTime: '2021-05-30',
@@ -174,4 +184,5 @@ export const constantRoutes = [{
   //     children: []
   //   }
   // ]
-}]
+// }
+]
