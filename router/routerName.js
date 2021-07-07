@@ -1,10 +1,14 @@
 
+// 中间件方法
 export function routerFun (routerS) {
+  console.log(222, routerS)
   const routerList = []
   routerS.forEach((item) => {
     const routerObj = {}
     routerObj.path = item.path
     routerObj.name = item.name
+    routerObj.meta = item.meta
+
     // router 子路径
     const routerChildren = {
       path: '',
@@ -29,7 +33,10 @@ export function routerFun (routerS) {
     const routerArr = routerObj.path.split('/')
     let isSame = true
     // 过滤所有components下的子组件，无需生成路由
-    if (routerArr.includes('common') || routerArr.includes('login')) {
+    if (routerArr.includes('common') || routerArr.includes('login') || routerArr.includes('blog')) {
+      return
+    }
+    if (routerObj.name.includes('common')) {
       return
     }
     // 初始化属性值
@@ -82,6 +89,10 @@ export function routerFun (routerS) {
         // router.name = routerArr[1] + 'p'
         router.children.push(routerChildren)
         routerChildren.path = routerObj.path + ((routerName[routerArr[1]] && routerName[routerArr[1]] !== '' && routerName[routerArr[1]].isID) ? routerName[routerArr[1]].isID : '')
+        if (routerObj.meta) {
+          router.meta = routerObj.meta
+          routerChildren.meta = routerObj.meta
+        }
         routerList.push(router)
         break
       case 3:
@@ -111,6 +122,7 @@ export function routerFun (routerS) {
   return routerList
 }
 
+// router 配置项
 export const routerName = {
   '': {
     name: '首页',
@@ -149,40 +161,34 @@ export const routerName = {
 // 如果是三级菜单，自行配置
 export const constantRoutes = [
   // {
-  //   name: 'error',
-  //   meta: { title: '错误', permissionArray: [1, 2, 3], icon: 'error', newTime: new Date(), noCache: false },
+  //   name: '404',
+  //   meta: { title: '错误401', permissionArray: [1, 2, 3], icon: 'error', newTime: new Date(), noCache: false },
   //   icon: 'form',
-  //   path: '/error',
-  //   children: [],
-  //   hidden: true
+  //   path: '/404',
+  //   index: 99,
+  //   children: []
   // }
-  // {
-  // icon: 'form',
-  // url: 'system',
-  // newTime: '2021-05-30',
-  // path: '/system',
-  // name: 'system1',
-  // index: 3,
-  // meta: { title: '系统管理1', icon: 'from', id: 123, newTime: new Date(), noCache: false },
-  // children: [
-  //   {
-  //     icon: 'form',
-  //     url: 'user/:id',
-  //     children: [],
-  //     name: 'user1',
-  //     meta: { title: '用户管理2', icon: 'from', id: 123, newTime: new Date(), noCache: false },
-  //
-  //     path: '/user',
-  //     newTime: '2021-05-30'
-  //   },
-  //   {
-  //     name: 'menu1',
-  //     meta: { title: '菜单管理3', icon: 'from', id: 123, newTime: new Date(), noCache: false },
-  //     icon: 'form',
-  //     url: 'menu',
-  //     path: '/menu',
-  //     children: []
-  //   }
-  // ]
-// }
+  {
+    path: '/common',
+    name: 'home1',
+    index: 1,
+    meta: { title: '一级', icon: 'form', newTime: new Date(), noCache: false },
+    children: [
+      {
+        children: [
+          {
+            index: 1,
+            name: 'common-home-home',
+            meta: { title: '三级', icon: 'form', newTime: new Date(), noCache: false },
+            path: '/common/home/home',
+            children: []
+          }
+        ],
+        index: 1,
+        name: 'home2',
+        meta: { title: '二级', icon: 'form', newTime: new Date(), noCache: false },
+        path: '/home'
+      }
+    ]
+  }
 ]

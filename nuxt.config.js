@@ -1,4 +1,23 @@
 export default {
+  router: {
+    extendRoutes (routes, resolve) {
+      // 添加router  name,path,component,meta，children
+      // routes.push({
+      //   name: 'common/custom',
+      //   path: '/404',
+      //   children: [],
+      //   meta: { title: '错误404', permissionArray: [1, 2, 3], icon: 'form', newTime: '' },
+      //   component: resolve(__dirname, 'views/404.vue')
+      // })
+
+      // 扩展配置
+      // routes.forEach((item) => {
+      //   if (item.path === '/') {
+      //     item.meta = { title: '首页配置', permissionArray: [1, 2, 3], icon: 'form', newTime: '' }
+      //   }
+      // })
+    }
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'ff',

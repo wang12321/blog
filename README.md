@@ -70,6 +70,7 @@ More information about the usage of this directory in [the documentation](https:
 
 
 ### 文件目录解析
+
 └─nuxtAPP
 ├─.nuxt               // Nuxt自动生成，临时的用于编辑的文件，build
 ├─assets              // 用于组织未编译的静态资源如LESS、SASS或JavaScript,对于不需要通过 Webpack 处理的静态资源文件，可以放置在 static 目录中

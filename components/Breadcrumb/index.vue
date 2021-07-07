@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { routerFun } from '@/router/routerName'
+import { routerFun, constantRoutes } from '@/router/routerName'
 import getPageTitle from '@/utils/get-page-title'
 export default {
   data () {
@@ -35,10 +35,16 @@ export default {
     getBreadcrumb () {
       const routerData = routerFun(this.$router.options.routes)
       let router = []
-      routerData.forEach((item) => {
+      routerData.concat(constantRoutes).forEach((item) => {
         if (this.$route.path.includes(item.path)) {
           item.children.forEach((childrenItem) => {
-            if (this.$route.path === childrenItem.path && item.path !== '') {
+            if (childrenItem.children && childrenItem.children.length !== 0) {
+              childrenItem.children.forEach((childrenItemTwo) => {
+                if (this.$route.path === childrenItemTwo.path && childrenItem.path !== '') {
+                  router = [item, childrenItem, childrenItemTwo]
+                }
+              })
+            } else if (this.$route.path === childrenItem.path && item.path !== '') {
               router = [item, childrenItem]
             }
           })

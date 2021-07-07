@@ -1,7 +1,7 @@
 // import getPageTitle from '@/utils/get-page-title'
 import { getToken } from '@/utils/auth'
 import { routerFun } from '@/router/routerName' // get token from cookie
-// const whiteList = ['/login'] // no redirect whitelist
+const whiteList = ['/login', '/blog', '/common/home/home'] // no redirect whitelist
 //
 
 export default ({ app, store, route }) => {
@@ -18,21 +18,25 @@ export default ({ app, store, route }) => {
         const routerData = routerFun(app.router.options.routes)
         store.dispatch('user/getInfo').then((res) => {
           store.dispatch('permission/generateRoutes', { router: routerData, roles: res }).then(() => {
-            // 判断页面是否有权限，暂不支持3级路由
-            const routesD = store.getters.permission_routes
-            const routeArr = []
-            if (routesD.length !== 0) {
-              routesD.forEach((item) => {
-                item.children.forEach((childrenItem) => {
-                  routeArr.push(item)
-                  routeArr.push(childrenItem)
-                })
-              })
-            }
-            if (routeArr.length !== 0 && routeArr.findIndex(target => target.path === route.path) !== -1) {
+            if (whiteList.includes(route.path)) {
               next()
             } else {
-              next({ path: '/error' })
+              // 判断页面是否有权限，暂不支持3级路由
+              const routesD = store.getters.permission_routes
+              const routeArr = []
+              if (routesD.length !== 0) {
+                routesD.forEach((item) => {
+                  item.children.forEach((childrenItem) => {
+                    routeArr.push(item)
+                    routeArr.push(childrenItem)
+                  })
+                })
+              }
+              if (routeArr.length !== 0 && routeArr.findIndex(target => target.path === route.path) !== -1) {
+                next()
+              } else {
+                next({ path: '/error' })
+              }
             }
           })
         })
