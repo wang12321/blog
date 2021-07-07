@@ -1,7 +1,6 @@
 
 // 中间件方法
 export function routerFun (routerS) {
-  console.log(222, routerS)
   const routerList = []
   routerS.forEach((item) => {
     const routerObj = {}
@@ -30,7 +29,7 @@ export function routerFun (routerS) {
       children: []
     }
 
-    const routerArr = routerObj.path.split('/')
+    const routerArr = routerObj.path.includes('/:id') ? (routerObj.path.substring(0, routerObj.path.indexOf('/:id')).split('/')) : routerObj.path.split('/')
     let isSame = true
     // 过滤所有components下的子组件，无需生成路由
     if (routerArr.includes('common') || routerArr.includes('login') || routerArr.includes('blog')) {
@@ -88,7 +87,7 @@ export function routerFun (routerS) {
         parentAttribute(routerArr[1], routerArr[1])
         // router.name = routerArr[1] + 'p'
         router.children.push(routerChildren)
-        routerChildren.path = routerObj.path + ((routerName[routerArr[1]] && routerName[routerArr[1]] !== '' && routerName[routerArr[1]].isID) ? routerName[routerArr[1]].isID : '')
+        routerChildren.path = routerObj.path
         if (routerObj.meta) {
           router.meta = routerObj.meta
           routerChildren.meta = routerObj.meta
@@ -102,9 +101,9 @@ export function routerFun (routerS) {
         router.meta.breadcrumb = routerArr[1] !== routerArr[2]
         parentAttribute(routerArr[1], routerArr[2])
         if (routerArr[1] === routerArr[2]) {
-          routerChildren.path = routerObj.path + ((routerName[routerArr[1]] && routerName[routerArr[1]] !== '' && routerName[routerArr[1]].isID) ? routerName[routerArr[1]].isID : '')
+          routerChildren.path = routerObj.path
         } else {
-          routerChildren.path = routerObj.path + ((routerName[routerArr[1]] && routerName[routerArr[1]] !== '' && routerName[routerArr[1]].children && routerName[routerArr[1]].children !== '' && routerName[routerArr[1]].children[routerArr[2]] && routerName[routerArr[1]].children[routerArr[2]] !== '' && routerName[routerArr[1]].children[routerArr[2]].isID) ? routerName[routerArr[1]].children[routerArr[2]].isID : '')
+          routerChildren.path = routerObj.path
         }
         routerList.forEach((item) => {
           if (routerArr[1] + 'p' === item.name) {
@@ -135,7 +134,6 @@ export const routerName = {
     icon: 'component',
     index: 2,
     permission: [1, 2, 3],
-    // isID: '/:id',
     newTime: '2021-07-20',
     children: {
       user: {
@@ -143,7 +141,6 @@ export const routerName = {
         icon: 'form',
         index: 1,
         permission: [],
-        // isID: '/:id',
         newTime: '2021-07-20'
       },
       menu: {
@@ -151,7 +148,6 @@ export const routerName = {
         icon: 'el-icon-caret-bottom',
         index: 2,
         permission: [1, 2, 3],
-        // isID: '/:id',
         newTime: '2021-07-20'
       }
     }

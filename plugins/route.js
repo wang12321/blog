@@ -32,7 +32,7 @@ export default ({ app, store, route }) => {
                   })
                 })
               }
-              if (routeArr.length !== 0 && routeArr.findIndex(target => target.path === route.path) !== -1) {
+              if (routeArr.length !== 0 && routeArr.findIndex(target => target.name === route.name) !== -1) {
                 next()
               } else {
                 next({ path: '/error' })
@@ -40,6 +40,9 @@ export default ({ app, store, route }) => {
             }
           })
         })
+      } else if (to.path.includes('/:id')) {
+        const params = { id: '66' }
+        next({ ...to, params })
       } else {
         next()
       }

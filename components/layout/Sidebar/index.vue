@@ -31,8 +31,6 @@ export default {
       'sidebar'
     ]),
     routes () {
-      console.log(1111, this.$store.getters.permission_routes)
-
       return this.$store.getters.permission_routes
     },
     activeMenu () {

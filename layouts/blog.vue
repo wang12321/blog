@@ -70,7 +70,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$route)
     if (this.$route.path.includes('/blog_message')) {
       this.activeIndex = '3'
     }
