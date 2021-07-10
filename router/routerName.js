@@ -124,30 +124,36 @@ export function routerFun (routerS) {
 // router 配置项
 export const routerName = {
   '': {
-    name: '首页',
+    name: ' 博客首页',
     icon: 'form',
     index: 1,
     permission: [1, 2, 3]
   },
+  PublishedArticles: {
+    name: '发布文章',
+    icon: 'form',
+    index: 2,
+    permission: [1, 2, 3]
+  },
+  articleManagement: {
+    name: '文章管理',
+    icon: 'form',
+    index: 3,
+    permission: [1, 2, 3]
+  },
+
   system: {
     name: '系统管理',
     icon: 'component',
-    index: 2,
-    permission: [1, 2, 3],
+    index: 99,
+    permission: [1, 2],
     newTime: '2021-07-20',
     children: {
-      user: {
-        name: '用户管理',
+      permisstion: {
+        name: '权限管理',
         icon: 'form',
         index: 1,
-        permission: [],
-        newTime: '2021-07-20'
-      },
-      menu: {
-        name: '菜单管理',
-        icon: 'el-icon-caret-bottom',
-        index: 2,
-        permission: [1, 2, 3],
+        permission: [1, 2],
         newTime: '2021-07-20'
       }
     }
@@ -164,27 +170,27 @@ export const constantRoutes = [
   //   index: 99,
   //   children: []
   // }
-  {
-    path: '/common',
-    name: 'home1',
-    index: 1,
-    meta: { title: '一级', icon: 'form', newTime: new Date(), noCache: false },
-    children: [
-      {
-        children: [
-          {
-            index: 1,
-            name: 'common-home-home',
-            meta: { title: '三级', icon: 'form', newTime: new Date(), noCache: false },
-            path: '/common/home/home',
-            children: []
-          }
-        ],
-        index: 1,
-        name: 'home2',
-        meta: { title: '二级', icon: 'form', newTime: new Date(), noCache: false },
-        path: '/home'
-      }
-    ]
-  }
+  // {
+  //   path: '/common',
+  //   name: 'home1',
+  //   index: 1,
+  //   meta: { title: '一级', icon: 'form', newTime: new Date(), noCache: false },
+  //   children: [
+  //     {
+  //       children: [
+  //         {
+  //           index: 1,
+  //           name: 'common-home-home',
+  //           meta: { title: '三级', icon: 'form', newTime: new Date(), noCache: false },
+  //           path: '/common/home/home',
+  //           children: []
+  //         }
+  //       ],
+  //       index: 1,
+  //       name: 'home2',
+  //       meta: { title: '二级', icon: 'form', newTime: new Date(), noCache: false },
+  //       path: '/home'
+  //     }
+  //   ]
+  // }
 ]

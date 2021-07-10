@@ -42,7 +42,9 @@ export default {
   plugins: [
     '@/plugins/element-ui',
     '~/plugins/route',
-    '@/plugins/svg-icon' // 注册svg插件文件
+    '@/plugins/svg-icon', // 注册svg插件文件
+    { src: '@/plugins/eleComponent', ssr: false }
+
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

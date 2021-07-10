@@ -50,8 +50,11 @@
         </el-menu>
       </div>
       <div class="header_dr_blog">
-        <nuxt-link to="/login">
+        <nuxt-link v-if="!name" to="/login/blogLogin">
           <span>登录/注册</span>
+        </nuxt-link>
+        <nuxt-link v-else to="/system/menu">
+          <span>{{ name }}</span>
         </nuxt-link>
       </div>
     </el-header>
@@ -62,12 +65,20 @@
 </template>
 
 <script>
+
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Blog',
   data () {
     return {
       activeIndex: '1'
     }
+  },
+  computed: {
+    ...mapGetters([
+      'name'
+    ])
   },
   mounted () {
     if (this.$route.path.includes('/blog_message')) {
@@ -131,7 +142,7 @@ export default {
   right: 0px;
   top: 0px;
   line-height: 60px;
-  font-size: 14px;
+  font-size: 17px;
   color: #fff;
 }
 

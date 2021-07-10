@@ -8,24 +8,32 @@
 import myserver from '@/services/getRequest'
 
 const user = {
+  registered: {
+    url: 'user/registered',
+    type: 'post'
+  },
+  forgot: {
+    url: 'user/forgot',
+    type: 'post'
+  },
   login: {
     url: 'user/login',
     type: 'post'
   },
   getInfo: {
-    url: 'user/info',
-    type: 'get'
-  },
-  gamelist: {
-    url: 'user/gamelist',
-    type: 'get'
+    url: 'user/userinfo',
+    type: 'post'
   },
   logout: {
     url: 'user/logout',
     type: 'post'
   },
-  getPageMenu: {
-    url: 'user/menu',
+  articlesAdd: {
+    url: 'articles/add',
+    type: 'post'
+  },
+  articlesSelect: {
+    url: 'articles/select',
     type: 'post'
   }
 

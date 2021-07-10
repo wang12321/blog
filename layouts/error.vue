@@ -16,6 +16,7 @@
 
 <script>
 export default {
+  layout: 'layoutAdmin'
 }
 </script>
 

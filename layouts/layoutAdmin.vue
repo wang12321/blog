@@ -1,11 +1,28 @@
 <template>
-  <div />
+  <div :class="classObj" class="app-wrapper">
+    <div>
+      <sidebar class="sidebar-container" />
+      <div class="main-container">
+        <div :class="{'fixed-header':fixedHeader}">
+          <navbar />
+        </div>
+        <div class="app-main">
+          <nuxt :keep-alive="true" />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
+import Navbar from '@/components/layout/Navbar'
+import Sidebar from '@/components/layout/Sidebar'
 import { getToken } from '@/utils/auth' // get token from cookie
+
 export default {
-  name: 'Default',
+  name: 'LayoutAdmin',
   components: {
+    Navbar,
+    Sidebar
   },
   data () {
     return {
@@ -33,11 +50,7 @@ export default {
   },
   mounted () {
     if (!getToken()) {
-      if (process.browser && window.location.port === '8083') {
-        this.$router.push({ path: '/blog' })
-      } else {
-        this.$router.push({ path: '/login' })
-      }
+      this.$router.push({ path: '/login' })
     }
   }
 }

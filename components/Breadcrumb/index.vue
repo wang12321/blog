@@ -37,17 +37,23 @@ export default {
       let router = []
       routerData.concat(constantRoutes).forEach((item) => {
         if (this.$route.path.includes(item.path)) {
-          item.children.forEach((childrenItem) => {
-            if (childrenItem.children && childrenItem.children.length !== 0) {
-              childrenItem.children.forEach((childrenItemTwo) => {
-                if (this.$route.path === childrenItemTwo.path && childrenItem.path !== '') {
-                  router = [item, childrenItem, childrenItemTwo]
-                }
-              })
-            } else if (this.$route.path === childrenItem.path && item.path !== '') {
-              router = [item, childrenItem]
-            }
-          })
+          if (item.children && item.children.length !== 0) {
+            item.children.forEach((childrenItem) => {
+              if (childrenItem.children && childrenItem.children.length !== 0) {
+                childrenItem.children.forEach((childrenItemTwo) => {
+                  if (this.$route.path === childrenItemTwo.path && childrenItem.path !== '') {
+                    router = [item, childrenItem, childrenItemTwo]
+                  }
+                })
+              } else if (this.$route.path === childrenItem.path && item.path !== '') {
+                router = [item, childrenItem]
+              } else if (item.path === '' && item.children[0].name !== 'index') {
+                router = [item]
+              }
+            })
+          } else {
+            router = [item]
+          }
         }
       })
       if (router.length === 0) {
@@ -69,6 +75,7 @@ export default {
         document.title = getPageTitle(matched[matched.lastIndex].meta.title)
       }
       this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
+      console.log(this.levelList)
     },
     isDashboard (route) {
       const name = (route && route.name) || (route && route.children && route.children[0].name)

@@ -1,10 +1,14 @@
 <template>
-  <div>角色管理</div>
+  <div>
+    权限管理
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'Id'
+  name: 'Permisstion',
+  layout: 'layoutAdmin'
+
 }
 </script>
 

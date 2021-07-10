@@ -1,19 +1,21 @@
 // import getPageTitle from '@/utils/get-page-title'
 import { getToken } from '@/utils/auth'
-import { routerFun } from '@/router/routerName' // get token from cookie
-const whiteList = ['/login', '/blog', '/common/home/home'] // no redirect whitelist
+import { routerFun } from '@/router/routerName'
 //
+
+const whiteList = ['/login', '/blog', '/common/home/home', '/login/blogLogin']
 
 export default ({ app, store, route }) => {
   app.router.beforeEach((to, from, next) => {
     // if (process.browser) {
     //    document.title = getPageTitle(to.meta.title)
     // }
+
     const hasToken = getToken()
     if (hasToken) {
       if (to.path === '/login') {
         // if is logged in, redirect to the home page
-        next({ path: '/' })
+        next({ path: '/PublishedArticles' })
       } else if (!store.getters.name) {
         const routerData = routerFun(app.router.options.routes)
         store.dispatch('user/getInfo').then((res) => {
@@ -49,7 +51,15 @@ export default ({ app, store, route }) => {
     } else {
       /* has no token */
       // eslint-disable-next-line no-lonely-if
-      next()
+      if (process.browser && window.location.port === '8083') {
+        if (to.path.includes('/blog')) {
+          next()
+        } else {
+          next({ path: '/blog' })
+        }
+      } else {
+        next()
+      }
     }
   })
 

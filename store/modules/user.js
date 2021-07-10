@@ -1,7 +1,6 @@
 import api from '@/services/api'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 // import { resetRouter } from '@/router'
-
 const getDefaultState = () => {
   return {
     token: getToken(),
@@ -37,10 +36,12 @@ const actions = {
     const { login } = api.user
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password }).then((response) => {
-        commit('SET_TOKEN', 'data.token')
-        setToken('data.token')
-        resolve()
+      login({ userName: username.trim(), password }).then((response) => {
+        if (response && response.code === 1) {
+          commit('SET_TOKEN', response.obj.token)
+          setToken(response.obj.token)
+          resolve()
+        }
       }).catch((error) => {
         reject(error)
       })
@@ -49,8 +50,13 @@ const actions = {
   // // get user info
   getInfo ({ commit, state }) {
     return new Promise((resolve, reject) => {
-      commit('SET_NAME', 'SSR')
-      resolve([1, 2, 3])
+      const { getInfo } = api.user
+      getInfo().then((response) => {
+        if (response && response.code === 1) {
+          commit('SET_NAME', response.obj.userName)
+          resolve(response.obj.premisstion)
+        }
+      })
     })
   },
   Gamelist ({ commit, state }) {

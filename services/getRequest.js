@@ -4,7 +4,7 @@
  * @Description: 配置生成api接口
  * @update by:
  */
-import { getIsUseMasterApiKey } from '@/utils/auth' // get token from cookie
+import { getIsUseMasterApiKey, getToken } from '@/utils/auth' // get token from cookie
 import server from './server'
 import apiURL from './apiURL'
 
@@ -18,7 +18,7 @@ myserver.prototype.postData = function (name, urlObj) {
   if (getIsUseMasterApiKey() === 'true' && process.env.NODE_ENV.includes('development')) {
     accounts = apiURL.production[name]
   } else {
-    accounts = ''
+    accounts = apiURL[process.env.NODE_ENV][name]
   }
   this[name] = {}
   Object.keys(urlObj).forEach((apiName) => {
@@ -31,7 +31,7 @@ myserver.prototype.sendMes = function (modeleName, apiName, url, type, dataP, co
   var config = config || {}
   // eslint-disable-next-line no-redeclare,no-var
   var type = type || 'get'
-  let data = dataP || {}
+  let data = Object.assign({ ...dataP, token: getToken() || '' }) || {}
   if (type === 'get' && typeof dataP === 'object') {
     data = { params: dataP }
   }
