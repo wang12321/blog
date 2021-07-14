@@ -19,29 +19,73 @@
           <Pagination :key="pageKey" :page-data="pageData" @reloadData="reloadData" />
         </el-main>
       </el-container>
+      <el-dialog
+        :title="title"
+        :visible.sync="dialogVisible"
+        width="80%"
+      >
+        <div class="dialog-content">
+          <div class="dialog-h5" v-html="myhtml" />
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
+
+      <el-dialog
+        title="编辑文章"
+        :visible.sync="PublishedArticlesdialogVisible"
+        width="80%"
+      >
+        <PublishedArticles :id="wzid" :key="wzKey" :content-text="contentText" :wzbt-p="wzbtP" />
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="PublishedArticlesdialogVisible = false">取 消</el-button>
+        </span>
+      </el-dialog>
     </client-only>
   </div>
 </template>
 
 <script>
 import api from '@/services/api'
+import PublishedArticles from '@/pages/PublishedArticles'
+import { Message } from 'element-ui'
+
 export default {
   name: 'Index',
+  components: {
+    PublishedArticles
+  },
   layout: 'layoutAdmin',
   data () {
     return {
-      roundCount: 0, // 合计
+      wzid: '',
+      wzKey: 0,
+      PublishedArticlesdialogVisible: false,
+      myhtml: '',
+      contentText: '',
+      wzbtP: '',
+      form: {},
+      dialogVisible: false,
+      title: '',
       pageKey: 0, // 刷新分页组件key
       total: 0,
       dateData: [],
       isAdvanced: true,
       formData: {
-        unionType: 'all',
-        object_id: '',
-        datePicker: []
       },
       tableData: [],
       tableColumn: [
+        {
+          label: '#',
+          prop: 'index',
+          align: 'left',
+          render: (h, params) => {
+            console.log(params)
+            return h('span', params.row.index)
+          }
+        },
         {
           label: '文章标题',
           prop: 'wzbt',
@@ -66,6 +110,15 @@ export default {
             }, params.row.wznr)
           }
         }, {
+          label: '发布状态',
+          prop: 'fbzt',
+          align: 'left',
+
+          formatter: (row) => {
+            return `<span>${row.fbzt === 0 ? '待发布' : '已发布'}</span>`
+          }
+        },
+        {
           label: '发布时间',
           prop: 'fbsj',
           align: 'left',
@@ -91,7 +144,9 @@ export default {
             plain: true,
             method: (index, row) => {
               console.log(index, row)
-              alert('查看')
+              this.dialogVisible = true
+              this.title = row.wzbt
+              this.myhtml = row.wznr
             }
           },
           {
@@ -101,7 +156,11 @@ export default {
             plain: true,
             method: (index, row) => {
               console.log(index, row)
-              alert('编辑')
+              this.wzKey += 1
+              this.PublishedArticlesdialogVisible = true
+              this.contentText = row.wznrtext
+              this.wzbtP = row.wzbt
+              this.wzid = row.id
             }
           },
           {
@@ -111,7 +170,17 @@ export default {
             plain: true,
             method: (index, row) => {
               console.log(index, row)
-              alert('删除')
+              const { articlesfb } = api.user
+              articlesfb({ id: row.id, fbzt: 2 }).then((res) => {
+                if (res.code === 1) {
+                  this.updata()
+                  Message({
+                    message: '删除成功',
+                    type: 'success',
+                    duration: 5 * 1000
+                  })
+                }
+              })
             }
           }
         ]
@@ -124,24 +193,27 @@ export default {
     },
     formOptions () {
       return [
-        { titleShow: true, title: '文章标题', placeholder: '文章标题', key: 'wzbt', type: 'input', clearable: true },
-        { titleShow: true, title: '', key: 'datePicker', type: 'datePicker', isAdvanced: true, change: this.changeDate }
+        { titleShow: true, title: '文章标题', placeholder: '文章标题', key: 'wzbt', type: 'input', clearable: true }
+        // { titleShow: true, title: '', key: 'datePicker', type: 'datePicker', isAdvanced: true, change: this.changeDate }
       ]
     }
   },
   mounted () {
-    const { articlesSelect } = api.user
-    articlesSelect().then((res) => {
-      if (res.code === 1 && res.obj && res.obj.data) {
-        this.tableData = res.obj.data
-      }
-    })
+    this.updata()
   },
   methods: {
     // 数据请求
     updata () {
-      this.total = 100
-      this.roundCount = 200
+      const { articlesSelect } = api.user
+      articlesSelect(Object.assign({ ...this.pageData, ...this.formData })).then((res) => {
+        if (res.code === 1 && res.obj && res.obj.data) {
+          res.obj.data.forEach((item, index) => {
+            item.index = index + 1
+          })
+          this.tableData = res.obj.data
+          this.total = res.obj.total
+        }
+      })
     },
     // 竞技赛场开放请求
     switchActon () {
@@ -167,5 +239,15 @@ export default {
 </script>
 
 <style scoped>
+.dialog-content {
+  height: 100%;
+  overflow-y:auto;
+  overflow-x:hidden;
+  width: 100%;
+}
+
+.dialog-h5 >>> img,p,span {
+  width: 100%;
+}
 
 </style>

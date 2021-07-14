@@ -24,6 +24,10 @@ const user = {
     url: 'user/userinfo',
     type: 'post'
   },
+  userList: {
+    url: 'user/userList',
+    type: 'post'
+  },
   logout: {
     url: 'user/logout',
     type: 'post'
@@ -34,6 +38,18 @@ const user = {
   },
   articlesSelect: {
     url: 'articles/select',
+    type: 'post'
+  },
+  articlesImg: {
+    url: 'articles/uploadimg',
+    type: 'post'
+  },
+  articlesfb: {
+    url: 'articles/updataFbzt',
+    type: 'post'
+  },
+  ArticlesUPDATE: {
+    url: 'articles/UPDATEArticles',
     type: 'post'
   }
 

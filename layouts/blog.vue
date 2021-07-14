@@ -53,7 +53,7 @@
         <nuxt-link v-if="!name" to="/login/blogLogin">
           <span>登录/注册</span>
         </nuxt-link>
-        <nuxt-link v-else to="/system/menu">
+        <nuxt-link v-else to="/PublishedArticles">
           <span>{{ name }}</span>
         </nuxt-link>
       </div>
