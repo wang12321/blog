@@ -6,13 +6,17 @@ const getDefaultState = () => {
     token: getToken(),
     name: '',
     avatar: '',
-    gamelist: []
+    gamelist: [],
+    wzxq: []
   }
 }
 
 const state = getDefaultState()
 
 const mutations = {
+  setWZXQ: (state, value) => {
+    state.wzxq = value
+  },
   RESET_STATE: (state) => {
     Object.assign(state, getDefaultState())
   },

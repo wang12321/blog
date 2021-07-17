@@ -14,6 +14,7 @@
       <mavon-editor
         ref="md"
         v-model="form.content"
+        :ishljs="true"
         @change="handle"
         @imgAdd="imgAdd"
         @save="save"
@@ -47,6 +48,7 @@ export default {
   },
   data () {
     return {
+      content: '',
       wzbt: '',
       myhtml: '',
       form: {},
@@ -146,12 +148,12 @@ export default {
 </script>
 
 <style>
-.main .v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper .content-input-wrapper {
-  width: 100%;
-  height: calc(100vh - 200px) !important;
-  overflow: auto;
-  padding: 8px 25px 15px 25px;
-}
+/*.main .v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper .content-input-wrapper {*/
+/*  width: 100%;*/
+/*  height: calc(100vh - 200px) !important;*/
+/*  overflow: auto;*/
+/*  padding: 8px 25px 15px 25px;*/
+/*}*/
 
 .main .v-note-wrapper .v-note-panel .v-note-show .v-show-content, .v-note-wrapper .v-note-panel .v-note-show .v-show-content-html {
   width: 100%;
@@ -160,6 +162,10 @@ export default {
   overflow-y: auto;
   box-sizing: border-box;
   overflow-x: hidden;
+}
+
+.main .v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper {
+  height: calc(100vh - 200px) !important;
 }
 
 .wzbt .el-input__inner{

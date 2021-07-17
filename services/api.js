@@ -51,6 +51,26 @@ const user = {
   ArticlesUPDATE: {
     url: 'articles/UPDATEArticles',
     type: 'post'
+  },
+  articleszan: {
+    url: 'articles/zan',
+    type: 'post'
+  },
+  articlesID: {
+    url: 'articles/ID',
+    type: 'post'
+  },
+  articlesLY: {
+    url: 'articles/message',
+    type: 'post'
+  },
+  articlesSelectLY: {
+    url: 'articles/selectMessage',
+    type: 'post'
+  },
+  messageGz: {
+    url: 'articles/messageGz',
+    type: 'post'
   }
 
 }

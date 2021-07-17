@@ -3,7 +3,7 @@ import { getToken } from '@/utils/auth'
 import { routerFun } from '@/router/routerName'
 //
 
-const whiteList = ['/login', '/blog', '/common/home/home', '/login/blogLogin']
+const whiteList = ['/login', '/blog', '/common/home/home', '/login/blogLogin', '/blog/blogXQ', '/blog/blog_message']
 
 export default ({ app, store, route }) => {
   app.router.beforeEach((to, from, next) => {

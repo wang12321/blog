@@ -246,6 +246,17 @@ export default {
   width: 100%;
 }
 
+.dialog-h5 >>> code.lang-{
+  width: 100% !important;
+  overflow: auto;
+}
+.dialog-h5 >>> pre{
+  width: 100%;
+  overflow: auto;
+  background-color: #000000;
+  color: #ffffff;
+}
+
 .dialog-h5 >>> img,p,span {
   width: 100%;
 }
